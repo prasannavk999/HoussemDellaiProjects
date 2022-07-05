@@ -11,21 +11,21 @@ stages:
   jobs:
     - job:  asa
       steps:
-        -  script:  each hello world0
+        -  script:  echo hello world0
 
 - stage: DeployUS1
   dependsOn: Test    # this stage runs after Test
   jobs:
     - job:  asa
       steps:
-        -  script:  each hello world1
+        -  script:  echo hello world1
 
 - stage: DeployUS2
   dependsOn: Test    # this stage runs in parallel with DeployUS1, after Test
   jobs:
     - job:  asa
       steps:
-        -  script:  each hello world2
+        -  script:  echo hello world2
 
 - stage: DeployEurope
   dependsOn:         # this stage runs after DeployUS1 and DeployUS2
@@ -34,4 +34,4 @@ stages:
   jobs:
     - job:  asa
       steps:
-        -  script:  each hello world3
+        -  script:  echo hello world3
