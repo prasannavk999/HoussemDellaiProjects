@@ -4,16 +4,34 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+- stage: Test
+  jobs:
+    - job:  asa
+      steps:
+        -  script:  each hello world0
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- stage: DeployUS1
+  dependsOn: Test    # this stage runs after Test
+  jobs:
+    - job:  asa
+      steps:
+        -  script:  each hello world1
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- stage: DeployUS2
+  dependsOn: Test    # this stage runs in parallel with DeployUS1, after Test
+  jobs:
+    - job:  asa
+      steps:
+        -  script:  each hello world2
+
+- stage: DeployEurope
+  dependsOn:         # this stage runs after DeployUS1 and DeployUS2
+  - DeployUS1
+  - DeployUS2
+  jobs:
+    - job:  asa
+      steps:
+        -  script:  each hello world3
